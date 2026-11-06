@@ -9,7 +9,19 @@
 // If the promise rejects: rethrow the error if it's the latest call,
 // otherwise resolve { stale: true } (nobody cares about an old failure).
 export function createLatestOnly() {
-  throw new Error("TODO");
+  let latest = 0;
+
+  return async function track(promise) {
+    const mine = ++latest;
+
+    try {
+      const value = await promise;
+      return mine === latest ? { stale: false, value } : { stale: true };
+    } catch (error) {
+      if (mine === latest) throw error;
+      return { stale: true };
+    }
+  };
 }
 
 // STRETCH — debounce(fn, ms): returns a function that waits until it has NOT
