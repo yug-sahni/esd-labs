@@ -13,7 +13,6 @@ export function createLatestOnly() {
 
   return async function track(promise) {
     const mine = ++latest;
-
     try {
       const value = await promise;
       return mine === latest ? { stale: false, value } : { stale: true };
@@ -28,5 +27,10 @@ export function createLatestOnly() {
 // been called for `ms` milliseconds, then calls fn once, with the LAST arguments.
 // Typing "learn" fast should search once, for "learn" — not five times.
 export function debounce(fn, ms) {
-  throw new Error("TODO");
+  let timer;
+
+  return function (...args) {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn.apply(this, args), ms);
+  };
 }

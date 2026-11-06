@@ -1,4 +1,3 @@
-
 // Section 05 — State as a state machine
 
 export const initialState = Object.freeze({
@@ -64,6 +63,15 @@ export function transition(state, event) {
       const course = event.course;
 
       if (state.planner.some((item) => item.id === course.id)) {
+        return state;
+      }
+
+      if (course.seatsLeft === 0) {
+        return state;
+      }
+
+      const total = state.planner.reduce((sum, item) => sum + item.credits, 0);
+      if (total + course.credits > 24) {
         return state;
       }
 
