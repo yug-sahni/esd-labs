@@ -1,39 +1,30 @@
-// Section 05 — Callbacks and higher-order functions
+// Section 06 — Scope and closures
 
-export function countWhere(list, predicate) {
+export function createIdGenerator(prefix) {
   let count = 0;
 
-  for (const item of list) {
-    if (predicate(item)) {
-      count++;
-    }
-  }
-
-  return count;
-}
-
-export function byField(field) {
-  return (a, b) => {
-    if (a[field] < b[field]) return -1;
-    if (a[field] > b[field]) return 1;
-    return 0;
+  return function () {
+    count++;
+    return `${prefix}-${count}`;
   };
 }
 
-export function applyUpdate(current, update) {
-  if (typeof update === "function") {
-    return update(current);
-  }
-
-  return update;
+export function makeCreditCheck(limit) {
+  return function (credits) {
+    return credits <= limit;
+  };
 }
 
-export function applyAll(start, updates) {
-  let result = start;
+export function createBox(initial) {
+  let value = initial;
 
-  for (const update of updates) {
-    result = applyUpdate(result, update);
+  function get() {
+    return value;
   }
 
-  return result;
+  function set(newValue) {
+    value = newValue;
+  }
+
+  return [get, set];
 }
