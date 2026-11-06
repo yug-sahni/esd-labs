@@ -3,7 +3,7 @@
 Pre-lab exercises for JS Lab 2. The full walkthrough is the lab doc:
 **https://esd-ta-sessions.vercel.app/js-app.html** — read it alongside this folder.
 
-No AI for this lab. Type the code yourself.
+
 
 ## Setup (once)
 
