@@ -1,18 +1,39 @@
-// Section 06 — Scope and closures
+// Section 05 — Callbacks and higher-order functions
 
-// Each call returns a NEW generator with its own counter:
-// const next = createIdGenerator("ORD"); next() → "ORD-1", next() → "ORD-2"
-export function createIdGenerator(prefix) {
-  throw new Error("TODO");
+export function countWhere(list, predicate) {
+  let count = 0;
+
+  for (const item of list) {
+    if (predicate(item)) {
+      count++;
+    }
+  }
+
+  return count;
 }
 
-// A function factory: returns a check that "remembers" the limit.
-export function makeCreditCheck(limit) {
-  throw new Error("TODO");
+export function byField(field) {
+  return (a, b) => {
+    if (a[field] < b[field]) return -1;
+    if (a[field] > b[field]) return 1;
+    return 0;
+  };
 }
 
-// A value only a function can change.
-// Returns [get, set]. The value lives in the closure; nothing else can reach it.
-export function createBox(initial) {
-  throw new Error("TODO");
+export function applyUpdate(current, update) {
+  if (typeof update === "function") {
+    return update(current);
+  }
+
+  return update;
+}
+
+export function applyAll(start, updates) {
+  let result = start;
+
+  for (const update of updates) {
+    result = applyUpdate(result, update);
+  }
+
+  return result;
 }
