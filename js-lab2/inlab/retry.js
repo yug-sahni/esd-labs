@@ -1,5 +1,3 @@
-// IN-LAB TASK (AI closed). Do this in the lab, not at home.
-//
 // retry(task, attempts, delayMs)
 //   task      a function returning a promise (e.g. () => fetchCourses({}))
 //   attempts  how many times to try in total (at least 1)
@@ -11,5 +9,20 @@
 import { wait } from "../src/s03-async.js";
 
 export async function retry(task, attempts, delayMs, { backoff = false } = {}) {
-  throw new Error("TODO");
+  let delay = delayMs;
+  let lastError;
+
+  for (let attempt = 1; attempt <= attempts; attempt++) {
+    try {
+      return await task();
+    } catch (error) {
+      lastError = error;
+      if (attempt < attempts) {
+        await wait(delay);
+        if (backoff) delay *= 2;
+      }
+    }
+  }
+
+  throw lastError;
 }
