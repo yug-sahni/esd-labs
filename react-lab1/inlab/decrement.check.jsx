@@ -1,4 +1,4 @@
-// IN-LAB TASK (AI closed). Do this in the lab, not at home.     Run:  npm run inlab
+//  Run:  npm run inlab
 //
 // Right-click a cell → its number goes DOWN by one. Never below 0.
 //

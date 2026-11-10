@@ -1,18 +1,31 @@
-// Section 06 — the grid: a Matrix made of Cells.
-//
-// Props:  matrix        an array of rows, each an array of numbers (any size — don't assume 3)
-//         onIncrement   a function: onIncrement(row, col)   (you need it in section 08)
-//
-// Render:
-//   <table className="matrix">
-//     <tbody>
-//       one <tr> per row
-//         one <td> per value, with a <Cell> inside it
-//
-// Lists need a key on the element you return from map — section 06 says which.
-// Section 08: each Cell's onClick calls onIncrement with THAT cell's row and column.
 import Cell from "./Cell.jsx";
 
-export default function Matrix({ matrix, onIncrement }) {
-  throw new Error("TODO");
+export default function Matrix({ matrix, onIncrement, onDecrement }) {
+  const max = Math.max(0, ...matrix.flat());
+
+  return (
+    <table className="matrix">
+      <tbody>
+        {matrix.map((rowValues, row) => (
+          <tr key={row}>
+            {rowValues.map((value, col) => (
+              <td key={col}>
+                <Cell
+                  row={row}
+                  col={col}
+                  value={value}
+                  isMax={max > 0 && value === max}
+                  onClick={() => onIncrement(row, col)}
+                  onDecrement={() => onDecrement(row, col)}
+                />
+              </td>
+            ))}
+            <td className="total" aria-label={`Row ${row + 1} total`}>
+              {rowValues.reduce((sum, value) => sum + value, 0)}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
 }
